@@ -1,7 +1,10 @@
 <template>
     <div id="app">
-        <Headers />
-        <NuxtPage /> <!-- This is the component that will be replaced by the page content -->
+        <NuxtErrorBoundary @error="logSomeError">
+            <Headers />
+            <NuxtPage />
+        </NuxtErrorBoundary>
+
     </div>
 </template>
 
@@ -30,9 +33,9 @@ useCookie({
 
 <style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
 }
 </style>

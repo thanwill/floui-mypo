@@ -2,10 +2,12 @@
     <div>
         <nav class="navbar navbar-expand-lg bg-body-tertiary p-4">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                
+                <NuxtLink class="navbar-brand" to="/">
                     <img src="/assets/Floui.png" alt="Logo" width="200" height="auto"
                         class="d-inline-block align-text-top">
-                </a>
+                </NuxtLink>  
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -15,13 +17,13 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Ambientes</a>
+                            <NuxtLink class="nav-link active" to="/ambientes">Ambientes</NuxtLink>                                                        
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Projetos</a>
+                            <NuxtLink class="nav-link active" to="/projetos">Projetos</NuxtLink>  
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Integrações</a>
+                            <NuxtLink class="nav-link active" to="/integracoes">Integrações</NuxtLink>  
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
