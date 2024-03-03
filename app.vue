@@ -3,8 +3,9 @@
         <NuxtErrorBoundary @error="logSomeError">
             <Headers />
             <NuxtPage />
+            <Footer />    
         </NuxtErrorBoundary>
-
+        
     </div>
 </template>
 

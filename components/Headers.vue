@@ -34,6 +34,10 @@
                                 <li><a class="dropdown-item" href="#">Conta</a></li>
                                 <li><a class="dropdown-item" href="#">Documentação</a></li>
                                 <li><a class="dropdown-item" href="#">Suporte</a></li>
+                                <hr>
+                                <li v-if="autentication">
+                                    <NuxtLink class="dropdown-item" to="/logout">Sair</NuxtLink>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -44,6 +48,8 @@
 </template>
 
 <script setup>
+
+const autentication = true;
 
 </script>
 

@@ -13,6 +13,7 @@
     "@material/chips": "^14.0.0",
     "@types/bootstrap": "^5.2.10",
     "bootstrap": "^5.3.3",
+    "firebase": "^10.8.1",
     "nuxt": "^3.10.3",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"

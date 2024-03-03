@@ -26,8 +26,8 @@
                             </div>
                         </article>
                     </section>
-                    <aside class="col-sm-12 col-md-7 col-lg-7 mb-3">
-                        <h2 class="text-start mb-3">Fluxos</h2>
+                    <aside class="col-sm-12 col-md-7 col-lg-7">
+                        <h2 class="text-start">Fluxos</h2>
                         <div class="">
                             <nav class="navbar bg-body-tertiary ">
                                 <div class="container-fluid">
@@ -214,7 +214,7 @@ const flows : Flow[] = [
     },
     {
         "ambiente": "production",
-        "arquivo": "production-atualizao-de-productionutos",
+        "arquivo": "production-atualizao-de-produtos",
         "cliente": "fokusfit",
         "loggers": [
             {
@@ -251,11 +251,11 @@ const flows : Flow[] = [
     },
     {
         "ambiente": "production",
-        "arquivo": "production-fluxo-para-novos-productionutos-",
+        "arquivo": "production-fluxo-para-novos-produtos-",
         "cliente": "fokusfit",
         "loggers": [
             {
-                "label": "productionuto ignorado na integração de novos productionutos",
+                "label": "productionuto ignorado na integração de novos produtos",
                 "type": "core_logger",
                 "uid": "behaqw8vk"
             },
@@ -388,13 +388,9 @@ body {
 
 }
 
-main {
-    background-color: #fff;
-}
-
 .aside {
     background-color: #fff;
-    max-height: 70vh;
+    min-height: 50vh;
     overflow-x: hidden;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;

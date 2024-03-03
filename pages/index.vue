@@ -1,19 +1,21 @@
 <template>
-    <div>
-
-    </div>
+    <main>
+        
+        
+    </main>
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                message: 'Hello World'
-            }
-        }
-    }
+<script setup>
+
 </script>
 
 <style scoped>
+img {
+    width: 200px;
+    display: block;
+}
 
+main {
+    min-height: 80vh;
+}
 </style>

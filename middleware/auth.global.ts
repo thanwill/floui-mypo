@@ -1,5 +1,5 @@
 const autentication = false;
-const routes = ['/ambientes', '/login', '/404'];
+
 
 export default defineNuxtRouteMiddleware((to, from) => {
     if(to.path === '/admin' && !autentication) {
@@ -8,8 +8,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if(to.path === '/login' && autentication) {
         return navigateTo('/ambientes');
     }
-
-
 
 
 });
