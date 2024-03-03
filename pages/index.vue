@@ -1,51 +1,9 @@
 <template>
     <div>
         <div>
-         
-
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">
-                        <img src="/assets/Floui.png" alt="Logo" width="200" height="auto"
-                            class="d-inline-block align-text-top">
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    
-                    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Ambientes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Projetos</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Integrações</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Perfil
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Conta</a></li>
-                                    <li><a class="dropdown-item" href="#">Documentação</a></li>
-                                    <li><a class="dropdown-item" href="#">Suporte</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>                    
-                </div>
-            </nav>
-
-
-            <main class="container-fluid mt-3 col-sm-10 offset-sm-1">
+            <main class="container-fluid col-sm-12 col-md-12 pt-3">
                 <div class="row">
-                    <section class="col-md-4 col-lg-3 mb-3">
+                    <section class="col-sm-12 col-md-4 offset-md-1 col-lg-3 mb-3">
                         <h3 class="text-start text-body-secondary">
                             <i class="bi bi-filter"></i>
                             Filtros
@@ -68,7 +26,7 @@
                             </div>
                         </article>
                     </section>
-                    <aside class="col-sm-12 col-md-8 col-lg-6 offset-lg-1 mb-3">
+                    <aside class="col-sm-12 col-md-7 col-lg-6 offset-lg-1 mb-3">
                         <h2 class="text-start mb-3">Fluxos</h2>
                         <div class="">
                             <nav class="navbar bg-body-tertiary ">
@@ -84,51 +42,54 @@
                                 </div>
                             </nav>
                         </div>
-                        <div class="accordion accordion-flush" :id="index"
-                            v-for="(flow, index) in flows" :key="index">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                        aria-controls="flush-collapseOne">
-                                        <span class="badge rounded-pill me-3"
-                                            :class="{ 'text-bg-danger': flow.ambiente !== 'staging', 'text-bg-success': flow.ambiente === 'staging' }">
-                                            {{ flow.ambiente }}
-                                        </span>
-                                        {{ flow.arquivo }}
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                :data-bs-parent="'#' + index">
-                                    <div class="accordion-body">
-                                        <div v-if="flow.loggers.length > 0">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">#</th>
-                                                        <th scope="col">uid</th>
-                                                        <th scope="col">label</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody v-for="(logger, index) in flow.loggers" :key="index">
-                                                    <tr>
-                                                        <th scope="row">{{ index + 1 }}</th>
-                                                        <td>{{ logger.uid }}</td>
-                                                        <td class="text-start">
-                                                            {{ logger.label ? logger.label : 'Sem rótulo' }}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div v-else>
-                                            <p class="mt-3">Nenhum logger encontrado</p>
+                        <div class="aside">                            
+                            <div class="accordion accordion-flush" :id="index" v-for="(flow, index) in flows"
+                                :key="index">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                            aria-expanded="false" aria-controls="flush-collapseOne">
+                                            <span class="badge rounded-pill me-3"
+                                                :class="{ 'text-bg-danger': flow.ambiente !== 'staging', 'text-bg-success': flow.ambiente === 'staging' }">
+                                                {{ flow.ambiente }}
+                                            </span>
+                                            {{ flow.arquivo }}
+                                        </button>
+                                    </h2>
+                                    <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                        :data-bs-parent="'#' + index">
+                                        <div class="accordion-body">
+                                            <div v-if="flow.loggers.length > 0">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">uid</th>
+                                                            <th scope="col">label</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody v-for="(logger, index) in flow.loggers" :key="index">
+                                                        <tr>
+                                                            <th scope="row">{{ index + 1 }}</th>
+                                                            <td>{{ logger.uid }}</td>
+                                                            <td class="text-start">
+                                                                {{ logger.label ? logger.label : 'Sem rótulo' }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div v-else>
+                                                <p class="mt-3">Nenhum logger encontrado</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
+
                     </aside>
                 </div>
             </main>
@@ -423,11 +384,15 @@ body {
 }
 
 main {
-    background-color: #fff
+    background-color: #fff;
 }
 
-aside {
+.aside {
     background-color: #fff;
+    max-height: 70vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
 }
 
 section {
