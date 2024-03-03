@@ -42,14 +42,14 @@
                                 </div>
                             </nav>
                         </div>
-                        <div class="aside">                            
-                            <div class="accordion accordion-flush" :id="index" v-for="(flow, index) in flows"
+                        <div class="aside">
+                            <div class="accordion accordion-flush" id="accordionFlows" v-for="(flow, index) in flows"
                                 :key="index">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                            aria-expanded="false" aria-controls="flush-collapseOne">
+                                            data-bs-toggle="collapse" :data-bs-target="'#' + index"
+                                            aria-expanded="false" :aria-controls="index">
                                             <span class="badge rounded-pill me-3"
                                                 :class="{ 'text-bg-danger': flow.ambiente !== 'staging', 'text-bg-success': flow.ambiente === 'staging' }">
                                                 {{ flow.ambiente }}
@@ -57,8 +57,7 @@
                                             {{ flow.arquivo }}
                                         </button>
                                     </h2>
-                                    <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                        :data-bs-parent="'#' + index">
+                                    <div :id="index" class="accordion-collapse collapse" data-bs-parent="#accordionFlows">
                                         <div class="accordion-body">
                                             <div v-if="flow.loggers.length > 0">
                                                 <table class="table">
