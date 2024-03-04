@@ -24,6 +24,7 @@
                                     {{ cliente.nome }}
                                 </button>
                             </div>
+                            <LoggersAdd />
                         </article>
                     </section>
                     <aside class="col-sm-12 col-md-7 col-lg-7">
