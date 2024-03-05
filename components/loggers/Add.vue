@@ -13,11 +13,10 @@
 
 <script setup>
 
-import { db } from '@/server/lib/firestone';
+import { db } from '@/server/lib/firebase';
 import { collection, doc, setDoc } from "firebase/firestore";
 
 const fluxos = collection(db, "fluxos");
-
 
 const handleFileSelect = (event) => {
     const files = event.target.files;
@@ -70,4 +69,4 @@ const handleFileSelect = (event) => {
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped></style>~/server/lib/firebase
