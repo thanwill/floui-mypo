@@ -38,7 +38,7 @@
                                     </form>
                                     <div class="justify-content-center">
                                         <button type="button" class="btn btn-outline-secondary me-3">Limpar</button>
-                                        <button type="button" class="btn btn-outline-success">Adicionar</button>
+                                        <button type="button" class="btn btn-outline-success" @click="addCity" >Adicionar</button>
                                     </div>
                                 </div>
                             </nav>
@@ -104,6 +104,7 @@
 
 import type { Flow } from '~/interfaces/flow'
 
+
 const ambientes = ["production", "staging", "homolog", "development"];
 
 const clients = [
@@ -113,7 +114,7 @@ const clients = [
     { nome: "ajinomoto", contagem: 20 }
 ];
 
-const flows : Flow[] = [
+const flows: Flow[] = [
     {
         "ambiente": "production",
         "arquivo": "production-fokusfit-insero-de-pedidos-v3",
@@ -375,6 +376,8 @@ const flows : Flow[] = [
         ]
     }
 ]
+
+
 </script>
 
 <style lang="scss" scoped>

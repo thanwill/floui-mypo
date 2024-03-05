@@ -13,6 +13,11 @@
 
 <script setup>
 
+import { db } from '@/server/lib/firestone';
+import { collection, doc, setDoc } from "firebase/firestore";
+
+const fluxos = collection(db, "fluxos");
+
 
 const handleFileSelect = (event) => {
     const files = event.target.files;
@@ -56,7 +61,10 @@ const handleFileSelect = (event) => {
     });
 
     Promise.all(promises).then(() => {
-        localStorage.setItem('arquivosSelecionados', JSON.stringify(arquivosSelecionados));
+        console.log('Arquivos selecionados:', arquivosSelecionados);
+        arquivosSelecionados.forEach(fluxo => {
+            setDoc(doc(fluxos, fluxo.cliente), fluxo);
+        });
     });
 }
 

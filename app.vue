@@ -1,11 +1,12 @@
 <template>
     <div id="app">
-        <NuxtErrorBoundary @error="logSomeError">
-            <Headers />
-            <NuxtPage />
-            <Footer />    
-        </NuxtErrorBoundary>
-        
+
+        <NuxtLayout />
+        <Headers />
+        <NuxtPage />
+        <Footer />
+
+
     </div>
 </template>
 
