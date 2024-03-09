@@ -1,103 +1,99 @@
 <template>
-    <div>
-        <div>
-            <main class="container-fluid col-sm-12 col-md-12 pt-3">
-                <div class="row">
-                    <section class="col-sm-12 col-md-4 offset-md-1 col-lg-3 mb-3">
-                        <h3 class="text-start text-body-secondary">
-                            <i class="bi bi-filter"></i>
-                            Filtros
-                        </h3>
-                        <article>
-                            <div>
-                                <label for="exampleDataList" class="form-label">Pesquisa por ambiente</label>
-                                <input class="form-control" list="datalistOptions" id="exampleDataList"
-                                    placeholder="Escreva para pesquisar...">
-                                <datalist id="datalistOptions">
-                                    <option v-for="ambiente in ambientes" :key="ambiente" :value="ambiente" />
-                                </datalist>
-                            </div>
-                            <hr>
-                            <div class="list-group">
-                                <button v-for="(cliente, index) in clients" :key="index" type="button"
-                                    class="list-group-item list-group-item-action">
-                                    {{ cliente.nome }}
-                                </button>
-                            </div>
-                            <LoggersAdd />
-                        </article>
-                    </section>
-                    <aside class="col-sm-12 col-md-7 col-lg-7">
-                        <h2 class="text-start">Fluxos</h2>
-                        <div class="">
-                            <nav class="navbar bg-body-tertiary ">
-                                <div class="container-fluid">
-                                    <form class="d-flex " role="search">
-                                        <input class="form-control" type="search" placeholder="Pesquisar"
-                                            aria-label="Search">
-                                    </form>
-                                    <div class="justify-content-center">
-                                        <button type="button" class="btn btn-outline-secondary me-3">Limpar</button>
-                                        <button type="button" class="btn btn-outline-success" @click="addCity" >Adicionar</button>
-                                    </div>
-                                </div>
-                            </nav>
+    <main>
+        <main class="col-sm-12 col-md-12 pt-3">
+            <div class="row">
+                <section class="col-sm-12 col-md-4 offset-md-1 col-lg-3 mb-3">
+                    <h3 class="text-start text-body-secondary">
+                        <i class="bi bi-filter"></i>
+                        Filtros
+                    </h3>
+                    <article>
+                        <div>
+                            <label for="exampleDataList" class="form-label">Pesquisa por ambiente</label>
+                            <input class="form-control" list="datalistOptions" id="exampleDataList"
+                                placeholder="Escreva para pesquisar...">
+                            <datalist id="datalistOptions">
+                                <option v-for="ambiente in ambientes" :key="ambiente" :value="ambiente" />
+                            </datalist>
                         </div>
-                        <div class="aside">
-                            <div class="accordion accordion-flush" id="accordionFlows" v-for="(flow, index) in flows"
-                                :key="index">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" :data-bs-target="'#' + index"
-                                            aria-expanded="false" :aria-controls="index">
-                                            <span class="badge rounded-pill me-3"
-                                                :class="{ 'text-bg-danger': flow.ambiente !== 'staging', 'text-bg-success': flow.ambiente === 'staging' }">
-                                                {{ flow.ambiente }}
-                                            </span>
-                                            {{ flow.arquivo }}
-                                        </button>
-                                    </h2>
-                                    <div :id="index" class="accordion-collapse collapse"
-                                        data-bs-parent="#accordionFlows">
-                                        <div class="accordion-body">
-                                            <div v-if="flow.loggers.length > 0">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">uid</th>
-                                                            <th scope="col">label</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody v-for="(logger, index) in flow.loggers" :key="index">
-                                                        <tr>
-                                                            <th scope="row">{{ index + 1 }}</th>
-                                                            <td>{{ logger.uid }}</td>
-                                                            <td class="text-start">
-                                                                {{ logger.label ? logger.label : 'Sem rótulo' }}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <div v-else>
-                                                <p class="">Nenhum logger encontrado</p>
-                                            </div>
+                        <hr>
+                        <div class="list-group">
+                            <button v-for="(cliente, index) in clients" :key="index" type="button"
+                                class="list-group-item list-group-item-action">
+                                {{ cliente.nome }}
+                            </button>
+                        </div>
+                        <LoggersAdd />
+                    </article>
+                </section>
+                <aside class="col-sm-12 col-md-7 col-lg-7">
+                    <h2 class="text-start">Fluxos</h2>
+                    <div class="">
+                        <nav class="navbar bg-body-tertiary ">
+                            <div class="container-fluid">
+                                <form class="d-flex " role="search">
+                                    <input class="form-control" type="search" placeholder="Pesquisar"
+                                        aria-label="Search">
+                                </form>
+                                <div class="justify-content-center">
+                                    <button type="button" class="btn btn-outline-secondary me-3">Limpar</button>
+                                    <button type="button" class="btn btn-outline-success"
+                                        @click="addCity">Adicionar</button>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="aside">
+                        <div class="accordion accordion-flush" id="accordionFlows" v-for="(flow, index) in flows"
+                            :key="index">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        :data-bs-target="'#' + index" aria-expanded="false" :aria-controls="index">
+                                        <span class="badge rounded-pill me-3"
+                                            :class="{ 'text-bg-danger': flow.ambiente !== 'staging', 'text-bg-success': flow.ambiente === 'staging' }">
+                                            {{ flow.ambiente }}
+                                        </span>
+                                        {{ flow.arquivo }}
+                                    </button>
+                                </h2>
+                                <div :id="index" class="accordion-collapse collapse" data-bs-parent="#accordionFlows">
+                                    <div class="accordion-body">
+                                        <div v-if="flow.loggers.length > 0">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">uid</th>
+                                                        <th scope="col">label</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody v-for="(logger, index) in flow.loggers" :key="index">
+                                                    <tr>
+                                                        <th scope="row">{{ index + 1 }}</th>
+                                                        <td>{{ logger.uid }}</td>
+                                                        <td class="text-start">
+                                                            {{ logger.label ? logger.label : 'Sem rótulo' }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div v-else>
+                                            <p class="">Nenhum logger encontrado</p>
                                         </div>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
+                    </div>
 
-                    </aside>
-                </div>
-            </main>
-            <div class="b-example-divider"></div>
-
-        </div>
-    </div>
+                </aside>
+            </div>
+        </main>
+        <div class="b-example-divider"></div>
+    </main>
 </template>
 
 <script setup lang="ts">

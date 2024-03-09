@@ -1,28 +1,12 @@
-import { db } from '@/server/lib/firebase';
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-
+import FluxosController from '@/server/controllers/fluxosController';
+import { Request, Response } from 'express';
 
 export default defineEventHandler(async () => {
 
-    const docRef = doc(db, "fluxos", "teste");
-    const docSnap = await getDoc(docRef);
-    let payload = {};
-
-
-    if (docSnap.exists()) {
-        payload = docSnap.data();
-    } else {
-        
-        payload = {
-            status : 404,
-            message : "Fluxo não encontrado"
-        }
-
-    }
-
     return {
-        status: 200,
-        message: "Fluxo encontrado",
-        payload 
-    };
+        async getFluxos(req: Request, res: Response) {
+            const fluxos = await FluxosController.getFluxos();
+            res.status(fluxos.status).json(fluxos);
+        }
+    }
 });

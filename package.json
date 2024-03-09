@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@material/chips": "^14.0.0",
+    "@nuxtjs/axios": "^5.13.6",
     "@types/bootstrap": "^5.2.10",
     "bootstrap": "^5.3.3",
     "firebase": "^10.8.1",
