@@ -1,6 +1,6 @@
-// server/api/index.ts
-import fluxos from './fluxos';
-
-export default {
-    fluxos
-};
+export default defineEventHandler(() => {
+    return {
+        status: 200,
+        message: "Tudo está funcionando por aqui! "
+    }
+})

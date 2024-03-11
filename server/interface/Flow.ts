@@ -1,19 +1,18 @@
 interface Fluxo {
-    nodes: Node[];
-    connections: Connection[];
-    variablesFlow : VariablesFlow[];
-    data: DataFlow;
-    
+    [key: string]: any;
+    empresa: string;
+    ambiente: string;    
+    arquivo: string;    
+    loggers: Node[];
 }
 
 interface Node {
     uid: string;
     type: string;
-    trigger: boolean;
-    data: DataNode;
+    trigger: boolean;    
 }
 
-interface DataNode {
+interface Data {
     x: number;
     y: number;
     output_path: string;
@@ -28,7 +27,7 @@ interface Position {
     y: number;
 }
 
-interface DataFlow {
+interface Data {
     label: string;
     value: string;
 }
@@ -39,7 +38,7 @@ interface Connection {
     label: string;
 }
 
-interface VariablesFlow {
+interface Variables {
     name: string;
     value: string;
 }
