@@ -4,9 +4,7 @@
         <NuxtLayout />
         <Headers />
         <NuxtPage />
-        <Footer />
-
-
+        
     </div>
 </template>
 
@@ -40,4 +38,5 @@ useCookie({
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;
 }
+
 </style>

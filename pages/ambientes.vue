@@ -94,6 +94,8 @@
         </main>
         <div class="b-example-divider"></div>
     </main>
+    <Footer/>
+    
 </template>
 
 <script setup lang="ts">
@@ -399,4 +401,5 @@ body {
 section {
     background-color: #fff;
 }
+
 </style>~/interfaces/flow

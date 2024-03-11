@@ -1,21 +1,14 @@
 <template>
-    <main>
-        
-        
-    </main>
+    <div>
+        <div class="container-fluid">            
+        </div>
+    </div>
 </template>
 
 <script setup>
 
 </script>
 
-<style scoped>
-img {
-    width: 200px;
-    display: block;
-}
+<style lang="scss" scoped>
 
-main {
-    min-height: 80vh;
-}
 </style>

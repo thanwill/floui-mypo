@@ -1,24 +1,25 @@
 <template>
-    <div>
+    <main>
         <div class="container-fluid">
-            <main>
-                <div class="col-sm-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 mt-5">
+            <div class="col-sm-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 mt-5">
                 <div class="row">
-                    <div class="col-12">
-                        <h1>Floui MyPO</h1>
+                    <div class="col-12 mt-5">
+                        <h1>Floui | Projetos</h1>
+                        <p class="text-secondary mt-4 mb-5 ">Faça login para acessar o sistema de gerenciamento de
+                            projetos.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-secondary mt-4 mb-4 ">Faça login para acessar o sistema de gerenciamento de
-                            projetos.</p>
+                        
                         <form>
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label
                                 ">Endereço de email</label>
                                 <input type="email" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp">
-                                <div id="emailHelp" class="form-text">Nós nunca compartilharemos seu email com ninguém.
+                                <div id="emailHelp" class="form-text">Nós nunca compartilharemos seu email com
+                                    ninguém.
                                 </div>
                             </div>
 
@@ -38,9 +39,8 @@
                     </div>
                 </div>
             </div>
-            </main>
         </div>
-    </div>
+    </main>
 </template>
 
 <script setup>
