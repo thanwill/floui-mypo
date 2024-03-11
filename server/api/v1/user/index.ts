@@ -6,7 +6,7 @@ const userController = new UserController;
 
 const router = createRouter();
 
-router.get('/', defineEventHandler(async (event: H3Event) => {
+router.get('/index', defineEventHandler(async (event: H3Event) => {
     return {
         status: 200,
         body: {
@@ -15,11 +15,24 @@ router.get('/', defineEventHandler(async (event: H3Event) => {
     }
 }) );
 
-router.post('/', defineEventHandler(async (event: H3Event) => {
+router.post('/create', defineEventHandler(async (event: H3Event) => {
     try {
         const request = await readBody(event);
         console.log("request", request);
         const response = await userController.createUser(request.email, request.senha);
+        return response;
+
+    } catch (e) {
+        console.log("error", e);
+        throw e;
+    }
+}));
+
+router.post('/', defineEventHandler(async (event: H3Event) => {
+    try {
+        const request = await readBody(event);
+        console.log("request", request);
+        const response = await userController.login(request.email, request.senha);
         return response;
 
     } catch (e) {

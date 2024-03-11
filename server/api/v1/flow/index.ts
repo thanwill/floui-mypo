@@ -47,6 +47,4 @@ router.get('/', defineEventHandler((event: H3Event) => {
 
 }));
 
-
-
 export default useBase('/api/v1/flow', router.handler);

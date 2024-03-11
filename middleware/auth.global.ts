@@ -7,6 +7,4 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if(to.path === '/login' && autentication) {
         return navigateTo('/ambientes');
     }
-
-    
 });
