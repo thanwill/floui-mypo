@@ -2,17 +2,24 @@
     "manifest_version": 3,
     "name": "Minha Extensão",
     "version": "1.0",
-    "permissions": ["activeTab"],
+    "permissions": [
+        "activeTab", 
+        "sidePanel"
+    ],
     "action": {
-        "default_popup": "popup.html",
-        "default_icon": {            
+        "default_path": "sidepanel.html",
+        "default_icon": {
             "128": "images/icon128.png"
         }
-    },
+    },   
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "js/background.js"
     },
     "icons": {
         "128": "images/icon128.png"
+    },
+    "side_panel": {
+        "default_path": "sidepanel.html",
+        "open_to_the_side": true
     }
 }
