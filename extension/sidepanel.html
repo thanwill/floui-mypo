@@ -35,19 +35,26 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <div class="message"></div>
-                <div class="list-group loggers mt-5"></div>
+            <div class="col-12 pt-3">
 
+                <div class="mb-3">
+                    <label for="node" class="form-label">Aplicar filtro</label>
+                    <input class="form-control" list="nodesList" id="node"
+                        placeholder="Pesquisar conectores...">
+
+                    <datalist id="nodesList"></datalist>
+                </div>
+                
+                <div class="message"></div>
                 <div class="accordion" id="tipos">
-                    
-                </div>                
+                </div>
             </div>
         </div>
     </div>
 
 
     <script type="module" src="./js/sidepanel.js"></script>
+    <script src="node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
