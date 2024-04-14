@@ -1,0 +1,711 @@
+[
+    {
+    "active": true,
+    "audible": false,
+    "autoDiscardable": true,
+    "discarded": false,
+    "favIconUrl": "https://app.64270a6ccd4a8e99ed15d690.ws.floui.io/favicon-white-purple.png",
+    "groupId": -1,
+    "height": 929,
+    "highlighted": true,
+    "id": 532196389,
+    "incognito": false,
+    "index": 1,
+    "lastAccessed": 1712411664922.822,
+    "mutedInfo": {
+        "muted": false
+    },
+    "pinned": false,
+    "selected": true,
+    "status": "complete",
+    "title": "Floui.io | Workspace Panel",
+    "url": "https://app.64270a6ccd4a8e99ed15d690.ws.floui.io/flows/6517113b41973669b4c928a9",
+    "width": 1285,
+    "windowId": 532196315
+    },
+    [
+        {
+            "uid": "1qozqr5uh",
+            "type": "core_http_in",
+            "trigger": true,
+            "data": {
+                "x": -400,
+                "y": 589,
+                "method": "post",
+                "authentication": "bearer",
+                "uri": "/magento/staging/customers/approved",
+                "description": "POST /magento/staging/customers/approved",
+                "basic_auth_username": "{{var endpoints_username_staging}}",
+                "basic_auth_password": "{{var endpoints_password_staging}}",
+                "bearer_token": "{{var endpoints_token_staging}}"
+            }
+        },
+        {
+            "uid": "fakdpju31",
+            "type": "core_http_out",
+            "trigger": false,
+            "data": {
+                "x": 546,
+                "y": 512,
+                "http_status": "400",
+                "content_type": "application/json",
+                "response_body": "{\n    \"success\": false,\n    \"errors\": {{json msg.validation.errors.map(e => e.message)}}\n}",
+                "description": "Retorno de erro"
+            }
+        },
+        {
+            "uid": "qpk6b9rew",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 314,
+                "y": 529,
+                "expression": "msg.validation.errors.length",
+                "description": "Se existem erros"
+            }
+        },
+        {
+            "uid": "httdaq1sf",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 315,
+                "y": 678,
+                "expression": "!msg.validation.errors.length",
+                "description": "Se não existem erros"
+            }
+        },
+        {
+            "uid": "h9gh5bb5v",
+            "type": "core_split_message",
+            "data": {
+                "x": 807,
+                "y": 662,
+                "items": "company_list",
+                "description": "Para cada cadastro de cliente",
+                "disabled": false
+            }
+        },
+        {
+            "uid": "d3qctas1n",
+            "type": "data_json_schema_validator",
+            "data": {
+                "x": 70,
+                "y": 589,
+                "content": "company_list",
+                "schema": "{\n    \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n    \"type\": \"array\",\n    \"items\": [\n      {\n        \"type\": \"object\",\n        \"properties\": {\n          \"cnpj\": {\n            \"type\": \"string\",\n            \"pattern\": \"^\\\\d{14}$\"\n          },\n          \"ie\": {\n            \"type\": \"string\"\n          },\n          \"razao_social\": {\n            \"type\": \"string\"\n          },\n          \"nome_fantasia\": {\n            \"type\": \"string\"\n          },\n          \"email\": {\n            \"type\": \"string\"\n          },\n          \"telefone\": {\n            \"type\": \"string\",\n            \"pattern\": \"^\\\\d{10,11}$\"\n          },\n          \"loja\": {\n            \"type\": \"array\",\n            \"items\": [\n              {\n                \"type\": \"number\"\n              }\n            ]\n          },\n          \"endereco\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"endereco\": {\n                \"type\": \"string\"\n              },\n              \"numero\": {\n                \"type\": \"string\"\n              },\n              \"complemento\": {\n                \"type\": \"string\"\n              },\n              \"bairro\": {\n                \"type\": \"string\"\n              },\n              \"cidade\": {\n                \"type\": \"string\"\n              },\n              \"uf\": {\n                \"type\": \"string\",\n                \"enum\": [\n                  \"SP\"\n                ]\n              },\n              \"cep\": {\n                \"type\": \"string\",\n                \"pattern\": \"^\\\\d{8}$\"\n              }\n            },\n            \"required\": [\n              \"endereco\",\n              \"numero\",\n              \"complemento\",\n              \"bairro\",\n              \"cidade\",\n              \"uf\",\n              \"cep\"\n            ]\n          },\n          \"condicoes_pagamento\": {\n            \"type\": \"array\",\n            \"items\": [\n              {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"condition_code\": {\n                    \"type\": \"string\"\n                  }\n                }\n              }\n            ]\n          },\n          \"limite_credito\": {\n            \"type\": \"array\",\n            \"items\": [\n              {\n                \"type\": \"object\",\n                \"properties\": {\n                  \"forma_pagamento\": {\n                    \"type\": \"string\"\n                  },\n                  \"total\": {\n                    \"type\": \"number\",\n                    \"minimum\": 0\n                  },\n                  \"saldo\": {\n                    \"type\": \"number\"\n                  },\n                  \"disponivel\": {\n                    \"type\": \"number\"\n                  }\n                },\n                \"required\": [\n                  \"forma_pagamento\",\n                  \"total\"\n                ]\n              }\n            ]\n          },\n          \"administrador\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"nome\": {\n                \"type\": \"string\"\n              },\n              \"sobrenome\": {\n                \"type\": \"string\"\n              },\n              \"email\": {\n                \"type\": \"string\",\n                \"format\": \"email\"\n              },\n              \"telefone\": {\n                \"type\": \"string\",\n                \"pattern\": \"^\\\\d{10,11}$\"\n              },\n              \"funcao\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"nome\",\n              \"sobrenome\",\n              \"email\",\n              \"telefone\",\n              \"funcao\"\n            ]\n          }\n        },\n        \"required\": [\n          \"cnpj\",\n          \"ie\",\n          \"loja\",\n          \"razao_social\",\n          \"nome_fantasia\",\n          \"email\",\n          \"telefone\",\n          \"endereco\",\n          \"condicoes_pagamento\",\n          \"limite_credito\",\n          \"administrador\"\n        ]\n      }\n    ]\n  }",
+                "description": "Valida dados de entrada",
+                "validation_output_type": "simplified",
+                "output_path": "validation"
+            }
+        },
+        {
+            "uid": "dhvopves3",
+            "type": "service_magento_customer_create",
+            "data": {
+                "x": 1698,
+                "y": 659,
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "custom_attributes": "{\"wnkytz3x6\":{\"field\":\"cellphone\",\"value\":\"{{msg.payload.administrador.telefone}}\"},\"9otg6bgoe\":{\"field\":\"company_name\",\"value\":\"{{msg.payload.razao_social}}\"},\"uywhrandm\":{\"field\":\"company_trade_name\",\"value\":\"{{msg.payload.nome_fantasia}}\"},\"uhjfjzfbl\":{\"field\":\"state_registry_number\",\"value\":\"{{msg.payload.ie}}\"},\"mh358qbh4\":{\"field\":\"company_buyer_email\",\"value\":\"{{msg.payload.administrador.email}}\"}}",
+                "description": "Cria a conta do usuário administrador",
+                "group_id": "1",
+                "firstname": "{{msg.payload.administrador.nome}}",
+                "lastname": "{{msg.payload.administrador.sobrenome}}",
+                "email": "{{msg.payload.cnpj}}@roge.com.br",
+                "taxvat": "{{msg.payload.cnpj}}",
+                "dob": "",
+                "output_path": "customer_response",
+                "custom_attributes_field_wnkytz3x6": "cellphone",
+                "custom_attributes_value_wnkytz3x6": "{{msg.payload.administrador.telefone}}",
+                "custom_attributes_field_92jo4nlsu": "is_subscribed",
+                "custom_attributes_value_92jo4nlsu": "1",
+                "custom_attributes_field_9otg6bgoe": "company_name",
+                "custom_attributes_value_9otg6bgoe": "{{msg.payload.razao_social}}",
+                "custom_attributes_field_uywhrandm": "company_trade_name",
+                "custom_attributes_value_uywhrandm": "{{msg.payload.nome_fantasia}}",
+                "custom_attributes_field_uhjfjzfbl": "state_registry_number",
+                "custom_attributes_value_uhjfjzfbl": "{{msg.payload.ie}}",
+                "website_id": "{{msg.payload.website_id}}",
+                "store_view_code": "",
+                "assistance_allowed": "1",
+                "is_subscribed": "1",
+                "custom_attributes_field_mh358qbh4": "company_buyer_email",
+                "custom_attributes_value_mh358qbh4": "{{msg.payload.administrador.email}}"
+            }
+        },
+        {
+            "uid": "hjye1mvjr",
+            "type": "service_magento_company_create",
+            "data": {
+                "x": 3104,
+                "y": 589,
+                "country_id": "BR",
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "street": "{\"h7nove24m\":{\"line\":\"{{msg.payload.endereco.endereco}}\"},\"ugn7w90tf\":{\"line\":\"{{msg.payload.endereco.numero}}\"},\"3sk35k5pz\":{\"line\":\"{{msg.payload.endereco.bairro}}\"},\"f1bo00ktl\":{\"line\":\"{{msg.payload.endereco.complemento}}\"}}",
+                "status": "1",
+                "customer_group_id": "1",
+                "company_name": "{{msg.payload.nome_fantasia}}",
+                "description": "Cadastra a empresa no Magento",
+                "legal_name": "{{msg.payload.razao_social}}",
+                "company_email": "{{msg.payload.cnpj}}@roge.com.br",
+                "vat_tax_id": "{{msg.payload.cnpj}}",
+                "street_line_h7nove24m": "{{msg.payload.endereco.endereco}}",
+                "street_line_ugn7w90tf": "{{msg.payload.endereco.numero}}",
+                "street_line_3sk35k5pz": "{{msg.payload.endereco.bairro}}",
+                "street_line_f1bo00ktl": "{{msg.payload.endereco.complemento}}",
+                "city": "{{msg.payload.endereco.cidade}}",
+                "region_id": "{{msg.payload.endereco.uf}}",
+                "postcode": "{{msg.payload.endereco.cep}}",
+                "telephone": "{{msg.payload.telefone}}",
+                "sales_representative_id": "19",
+                "super_user_id": "{{msg.customer_response.id}}",
+                "reseller_id": "",
+                "output_path": "company_response",
+                "comment": "IE:{{msg.payload.ie}}",
+                "store_view_code": "",
+                "extension_attributes": "{\"7igmsenqf\":{\"field\":\"company_buyer_email\",\"value\":\"{{msg.payload.administrador.email}}\"},\"hjs6wzndo\":{\"field\":\"boleto_roge\",\"value\":\"{{msg.conditions_boleto_roge ? msg.conditions_boleto_roge.join(',') : ''}}\"},\"lhr2m6nzc\":{\"field\":\"boleto_trademaster\",\"value\":\"{{msg.conditions_boleto_trademaster ? msg.conditions_boleto_trademaster.join(',') : ''}}\"},\"f829eepjl\":{\"field\":\"demais_condicoes\",\"value\":\"{{msg.conditions_outros ? msg.conditions_outros.join(',') : ''}}\"}}",
+                "extension_attributes_field_7igmsenqf": "company_buyer_email",
+                "extension_attributes_value_7igmsenqf": "{{msg.payload.administrador.email}}",
+                "extension_attributes_field_hjs6wzndo": "boleto_roge",
+                "extension_attributes_value_hjs6wzndo": "{{msg.conditions_boleto_roge ? msg.conditions_boleto_roge.join(',') : ''}}",
+                "extension_attributes_field_lhr2m6nzc": "boleto_trademaster",
+                "extension_attributes_value_lhr2m6nzc": "{{msg.conditions_boleto_trademaster ? msg.conditions_boleto_trademaster.join(',') : ''}}",
+                "extension_attributes_field_5itjj16th": "outra",
+                "extension_attributes_field_f829eepjl": "demais_condicoes",
+                "extension_attributes_value_f829eepjl": "{{msg.conditions_outros ? msg.conditions_outros.join(',') : ''}}",
+                "extension_attributes_field_eanc529n9": "limite_boleto_roge",
+                "extension_attributes_field_vc0f0zcho": "limite_boleto_trademaster",
+                "extension_attributes_field_0wwcu4gn2": "limite_demais_condicoes"
+            }
+        },
+        {
+            "uid": "wlgrpznrz",
+            "type": "core_message_change",
+            "trigger": false,
+            "data": {
+                "x": -160,
+                "y": 607,
+                "description": "Move dados da requisição para msg.company_data",
+                "values": "{\"q9jt38yif\":{\"type\":\"move\",\"from\":\"msg.payload.body\",\"to\":\"msg.company_list\"}}",
+                "values_type_q9jt38yif": "move",
+                "values_from_q9jt38yif": "msg.payload.body",
+                "values_to_q9jt38yif": "msg.company_list"
+            }
+        },
+        {
+            "uid": "8er182ewp",
+            "type": "data_transform_values",
+            "data": {
+                "x": 1462,
+                "y": 661,
+                "input_from": "payload.endereco.uf",
+                "transform_type": "complete",
+                "output_type": "complete_msg",
+                "transform_data": "{\"iazma204d\":{\"from\":\"SP\",\"to\":\"1522\"}}",
+                "description": "Transforma valores de IDs de região",
+                "transform_data_from_iazma204d": "SP",
+                "transform_data_to_iazma204d": "1522"
+            }
+        },
+        {
+            "uid": "m55lvjqwh",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 3686,
+                "y": 437,
+                "expression": "msg.company_response.id",
+                "description": "Se o empresa foi criada corretamente"
+            }
+        },
+        {
+            "uid": "witi2kvor",
+            "type": "core_logger",
+            "data": {
+                "x": 3888,
+                "y": 420,
+                "message_type": "message_parsed_text",
+                "message": "Nome: {{msg.company_response.company_name}} CNPJ: {{msg.company_response.vat_tax_id}} ID: {{msg.company_response.id}} Usuário admin ID: {{msg.customer_response.id}}",
+                "description": "Log de sucesso",
+                "label": "Empresa cadastrada com sucesso"
+            }
+        },
+        {
+            "uid": "rlvzic434",
+            "type": "core_http_out",
+            "trigger": false,
+            "data": {
+                "x": 546,
+                "y": 826,
+                "http_status": "201",
+                "content_type": "application/json",
+                "description": "Retorno de sucesso",
+                "response_body": "{\n    \"success\": true,\n    \"errors\": [],\n    \"queued\": true\n}"
+            }
+        },
+        {
+            "uid": "ub47t4akc",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 1971,
+                "y": 964,
+                "expression": "!msg.customer_response.id && msg.customer_response.message != \"CPF/CNPJ já existente\"",
+                "description": "Se o usuário não foi criado corretamente por alguma inconsistência e não é falha por cliente já existente"
+            }
+        },
+        {
+            "uid": "4w41o0931",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 3681,
+                "y": 574,
+                "expression": "!msg.company_response.id",
+                "description": "Se o empresa não foi criada corretamente"
+            }
+        },
+        {
+            "uid": "vug3eugqw",
+            "type": "core_logger",
+            "data": {
+                "x": 2177,
+                "y": 948,
+                "message_type": "message_parsed_text",
+                "message": "{{json msg.customer_response}}",
+                "description": "Log de erro",
+                "label": "Erro na criação do usuário empresa"
+            }
+        },
+        {
+            "uid": "h9c769i9i",
+            "type": "core_logger",
+            "data": {
+                "x": 3889,
+                "y": 556,
+                "message_type": "message_parsed_text",
+                "message": "Erro na criação da empresa",
+                "description": "Log de erro",
+                "label": "{{json msg.company_response}}"
+            }
+        },
+        {
+            "uid": "g0ann0civ",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 1978,
+                "y": 601,
+                "expression": "msg.customer_response.id",
+                "description": "Se Magento respondeu corretamente"
+            }
+        },
+        {
+            "uid": "5yrqf2ub1",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 1970,
+                "y": 1139,
+                "expression": "msg.response.status >= 500",
+                "description": "Se Magento está fora do ar no momento"
+            }
+        },
+        {
+            "uid": "pc860jia8",
+            "type": "core_queue_publisher",
+            "trigger": false,
+            "data": {
+                "x": 2173,
+                "y": 1122,
+                "message_type": "message_parsed_text",
+                "message": "{\n\"payload\": {{json msg.payload}}\n}",
+                "is_delayed": "1",
+                "delay_seconds": "600",
+                "description": "Enfileira para retentativa após 10 minutos",
+                "queue_name": "company_approved_retry"
+            }
+        },
+        {
+            "uid": "jjkf1g4pe",
+            "type": "core_queue_consumer",
+            "trigger": true,
+            "data": {
+                "x": 442,
+                "y": 149,
+                "description": "Retentativa a partir do cliente",
+                "queue_name": "company_approved_retry"
+            }
+        },
+        {
+            "uid": "xk76mem8c",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 3439,
+                "y": 491,
+                "expression": "msg.response.status < 500",
+                "description": "Se Magento respondeu corretamente"
+            }
+        },
+        {
+            "uid": "pb4f6kmuw",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 3442,
+                "y": 752,
+                "expression": "msg.response.status >= 500",
+                "description": "Se Magento está fora do ar no momento"
+            }
+        },
+        {
+            "uid": "wj4qmdqro",
+            "type": "core_queue_publisher",
+            "trigger": false,
+            "data": {
+                "x": 3682,
+                "y": 735,
+                "message_type": "message_parsed_text",
+                "message": "{\n\"payload\": {{json msg.payload}},\n\"customer_response\": {{json msg.customer_response}}\n}",
+                "is_delayed": "1",
+                "delay_seconds": "600",
+                "description": "Enfileira para retentativa após 10 minutos",
+                "queue_name": "company_approved_retry"
+            }
+        },
+        {
+            "uid": "sozs2q5fd",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 2126,
+                "y": 166,
+                "expression": "msg.customer_response.id",
+                "description": "Se já processou o cliente"
+            }
+        },
+        {
+            "uid": "zzia1ohnx",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 1417,
+                "y": 407,
+                "expression": "!msg.customer_response.id",
+                "description": "Se ainda não processou o cliente"
+            }
+        },
+        {
+            "uid": "l6pp0c8pq",
+            "type": "core_delay",
+            "data": {
+                "x": 1036,
+                "y": 674,
+                "delay_in_seconds": "1",
+                "description": "Delay de 1 segundo antes de processar a próxima empresa"
+            }
+        },
+        {
+            "uid": "1uapzk7dw",
+            "type": "data_json",
+            "data": {
+                "x": 663,
+                "y": 150,
+                "mode": "from_json",
+                "content": "payload"
+            }
+        },
+        {
+            "uid": "fp4nnml4t",
+            "type": "core_message_change",
+            "trigger": false,
+            "data": {
+                "x": 1163,
+                "y": 167,
+                "description": "Move valores",
+                "values": "{\"zlpcht459\":{\"type\":\"move\",\"from\":\"msg.payload.customer_response\",\"to\":\"msg.customer_response\"},\"ugdhsr6c6\":{\"type\":\"copy\",\"from\":\"msg.payload.payload\",\"to\":\"msg.payload\"}}",
+                "values_from_zlpcht459": "msg.payload.customer_response",
+                "values_type_zlpcht459": "move",
+                "values_to_zlpcht459": "msg.customer_response",
+                "values_from_ugdhsr6c6": "msg.payload.payload",
+                "values_to_ugdhsr6c6": "msg.payload"
+            }
+        },
+        {
+            "uid": "cub37t01f",
+            "type": "core_function",
+            "data": {
+                "x": 1242,
+                "y": 661,
+                "code": "/*\nValores de entrada:\n\nLoja 1 = Multimarcas\nLoja 2 = P&G\n\nWebsites (Magento):\n\nID 1 = Default (Multimarcas)\nID 4 = Site P&G\n*/\n\nasync function handler(msg) {\n    var website_id = 1;\n\n    for (let k in msg.payload.loja) {\n        // se o cliente tem acesso P&G, cadastro inicial é P&G\n        if (msg.payload.loja[k] == 2) {\n            website_id = 4\n        }\n    }\n\n    msg.payload.website_id = website_id;\n\n    return msg;\n}",
+                "description": "Mapeia website e grupo de clientes pela loja de acesso"
+            }
+        },
+        {
+            "uid": "5diff3xb1",
+            "type": "core_split_message",
+            "data": {
+                "x": 4233,
+                "y": 529,
+                "items": "payload.limite_credito",
+                "output_path": "limite_credito",
+                "description": "Para cada limite de crédito recebido"
+            }
+        },
+        {
+            "uid": "wz8khge1u",
+            "type": "service_generic_rest_api",
+            "data": {
+                "x": 4688,
+                "y": 465,
+                "method": "put",
+                "content_type": "application/json",
+                "description": "Atualiza limite de crédito para Boleto Roge",
+                "additional_headers": "{}",
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "path": "/V1/companyCredits/{{msg.company_response.id}}",
+                "request_body": "{\n\t\"creditLimit\": {\n\t\t\"id\": {{msg.company_response.id}},\n\t\t\"company_id\": {{msg.company_response.id}},\n\t\t\"credit_limit\": {{msg.limite_credito.total}},\n\t\t{{#msg.limite_credito.saldo}}\"balance\": {{msg.limite_credito.saldo}},{{/msg.limite_credito.saldo}}\n\t\t{{#msg.limite_credito.disponivel}}\"available_limit\": {{msg.limite_credito.disponivel}}{{/msg.limite_credito.disponivel}}\n\t\t\"currency_code\": \"BRL\",\n\t\t\"exceed_limit\": true\n\t}\n}"
+            }
+        },
+        {
+            "uid": "g1hg4qrck",
+            "type": "core_logger",
+            "data": {
+                "x": 4953,
+                "y": 525,
+                "message_type": "message_parsed_text",
+                "message": "{{json msg.payload}}",
+                "description": "Log da operação",
+                "label": "Limite de crédito atualizado: Status {{msg.response.status}}"
+            }
+        },
+        {
+            "uid": "18fggdx0d",
+            "type": "service_generic_rest_api",
+            "data": {
+                "x": 4687,
+                "y": 581,
+                "method": "put",
+                "content_type": "application/json",
+                "description": "Atualiza limite de crédito para Boleto Trademaster",
+                "additional_headers": "{}",
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "path": "/V1/companyCreditsTrademaster/{{msg.company_response.id}}",
+                "request_body": "{\n\t\"creditLimit\": {\n\t\t\"id\": {{msg.company_response.id}},\n\t\t\"company_id\": {{msg.company_response.id}},\n\t\t\"credit_limit\": {{msg.limite_credito.total}},\n\t\t{{#msg.limite_credito.saldo}}\"balance\": {{msg.limite_credito.saldo}},{{/msg.limite_credito.saldo}}\n\t\t{{#msg.limite_credito.disponivel}}\"available_limit\": {{msg.limite_credito.disponivel}}{{/msg.limite_credito.disponivel}}\n\t\t\"currency_code\": \"BRL\",\n\t\t\"exceed_limit\": true\n\t}\n}",
+                "disabled": false
+            }
+        },
+        {
+            "uid": "yujtixr9y",
+            "type": "service_generic_rest_api",
+            "data": {
+                "x": 4465,
+                "y": 301,
+                "method": "put",
+                "content_type": "application/json",
+                "additional_headers": "{}",
+                "request_body": "{{msg.address_template}}",
+                "description": "Adiciona complemento com dados do endereço de cobrança/entrega do usuário igual ao da empresa",
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "path": "/V1/customers/{{msg.customer_response.id}}",
+                "output_path": "address_response"
+            }
+        },
+        {
+            "uid": "wab9jq4yd",
+            "type": "core_logger",
+            "data": {
+                "x": 4683,
+                "y": 300,
+                "message_type": "message_parsed_text",
+                "message": "{{json msg.address_response}}",
+                "description": "Log da operação",
+                "label": "Endereço atualizado: Status {{msg.response.status}}"
+            }
+        },
+        {
+            "uid": "ghio5oh6g",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 4466,
+                "y": 482,
+                "expression": "msg.limite_credito.forma_pagamento == \"1\"",
+                "description": "Se a forma de pagamento é Boleto Roge (1)"
+            }
+        },
+        {
+            "uid": "4apnsb75a",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 4467,
+                "y": 599,
+                "expression": "msg.limite_credito.forma_pagamento == \"6\"",
+                "description": "Se a forma de pagamento é Boleto Trademaster (6)"
+            }
+        },
+        {
+            "uid": "hwmijxyjp",
+            "type": "service_internal_db_entity_list",
+            "data": {
+                "x": 550,
+                "y": 661,
+                "page": "1",
+                "limit": "1000",
+                "table_id": "64934d5128ab0695c4932afc",
+                "filters": "{}",
+                "sort_order": "{}",
+                "description": "Consulta condições de pagamento já sincronizadas no DB",
+                "output_path": "conditions_db"
+            }
+        },
+        {
+            "uid": "n5hdgjmnz",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 1972,
+                "y": 790,
+                "expression": "msg.customer_response.message == \"CPF/CNPJ já existente\"",
+                "description": "Se o usuário já existe para o CPF/CNPJ informado"
+            }
+        },
+        {
+            "uid": "ivjcscjwg",
+            "type": "service_magento_customer_list",
+            "data": {
+                "x": 2177,
+                "y": 773,
+                "page_size": "1",
+                "current_page": 1,
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "filters": "{\"7tx8s4e5n\":{\"field\":\"taxvat\",\"condition\":\"eq\",\"value\":\"{{msg.payload.cnpj}}\"}}",
+                "description": "Consulta o cliente já existente com o CNPJ",
+                "filters_field_7tx8s4e5n": "taxvat",
+                "filters_condition_7tx8s4e5n": "eq",
+                "filters_value_7tx8s4e5n": "{{msg.payload.cnpj}}",
+                "output_path": "customer_response"
+            }
+        },
+        {
+            "uid": "6g8cxr5no",
+            "type": "core_message_change",
+            "trigger": false,
+            "data": {
+                "x": 2417,
+                "y": 789,
+                "description": "Move o primeiro cliente encontrado",
+                "values": "{\"tv9g6mmt5\":{\"type\":\"move\",\"from\":\"msg.customer_response.items.0\",\"to\":\"msg.customer_response\"}}",
+                "values_type_tv9g6mmt5": "move",
+                "values_from_tv9g6mmt5": "msg.customer_response.items.0",
+                "values_to_tv9g6mmt5": "msg.customer_response"
+            }
+        },
+        {
+            "uid": "krpkz8nh8",
+            "type": "core_logger",
+            "data": {
+                "x": 549,
+                "y": 990,
+                "message_type": "msg_object",
+                "message": "Log message",
+                "label": "Payload de entrada para testes integrados"
+            }
+        },
+        {
+            "uid": "utikkv1tf",
+            "type": "core_template",
+            "data": {
+                "x": 4243,
+                "y": 302,
+                "convert_json": "0",
+                "content": "{\n    \"customer\": {\n        \"id\": {{msg.customer_response.id}},\n        \"addresses\": [{\n            \"customer_id\": {{msg.customer_response.id}},\n            \"firstname\": \"{{msg.customer_response.firstname}}\",\n            \"lastname\": \"{{msg.customer_response.lastname.trim() ? msg.customer_response.lastname : msg.customer_response.firstname}}\",\n            \"telephone\": \"{{msg.payload.telefone}}\",\n            \"street\": [\n                \"{{msg.payload.endereco.endereco}}\",\n                \"{{msg.payload.endereco.numero}}\",\n                \"{{msg.payload.endereco.bairro}}\",\n                \"{{msg.payload.endereco.complemento}}\"\n            ],\n            \"postcode\": \"{{msg.payload.endereco.cep}}\",\n            \"city\": \"{{msg.payload.endereco.cidade}}\",\n            \"region_id\": \"{{msg.payload.endereco.uf}}\",\n            \"country_id\": \"BR\",\n            \"default_billing\": true,\n            \"default_shipping\": true\n        }],\n        \"extension_attributes\": {\n            \"assistance_allowed\": 2\n        }\n    }\n}",
+                "output_path": "address_template",
+                "description": "Template da requisição do endereço do cliente"
+            }
+        },
+        {
+            "uid": "mxkssvbd5",
+            "type": "core_joint",
+            "trigger": false,
+            "data": {
+                "x": 2612,
+                "y": 606
+            }
+        },
+        {
+            "uid": "xdwmel9t0",
+            "type": "core_function",
+            "data": {
+                "x": 2855,
+                "y": 589,
+                "code": "async function handler(msg) {\n    \n    // agrupa condições do DB por condition_code\n    var conditionsMapping = {}\n    msg.conditions_db.items.forEach(item => {\n        conditionsMapping[item.data.condition_code] = item.data\n    })\n\n    // separa listas de valores para envio ao Magento\n    var conditions_boleto_roge = [];\n    var conditions_boleto_trademaster = [];\n    var conditions_outros = []; // outras formas de pagamento\n\n    // separa lista de valores de valor mínimo para pagamento por condição do cliente\n    var min_value_boleto_roge = [];\n    var min_value_boleto_trademaster = [];\n    var min_value_outros = []; // outras formas de pagamento\n\n    // percorre as condições recebidas e verifica\n    msg.payload.condicoes_pagamento.forEach((cond) => {\n        var condition = conditionsMapping[cond.condition_code] || null\n        if (condition) {\n            // Se BOLETO ROGE\n            if (condition.method_code == \"1\") {\n                conditions_boleto_roge.push(\"conditionprice_boleto_roge_\" + condition.condition_code)\n\n                // separa config de valor mínimo por condição\n                if (cond.valor_minimo != undefined) {\n                    min_value_boleto_roge.push({\n                        condition: \"conditionprice_boleto_roge_\" + condition.condition_code,\n                        price: cond.valor_minimo\n                    })\n                }\n            }\n\n            // SE BOLETO TRADEMASTER\n            if (condition.method_code == \"6\") {\n                conditions_boleto_trademaster.push(\"conditionprice_boleto_trademaster_\" + condition.condition_code)\n\n                // separa config de valor mínimo por condição\n                if (cond.valor_minimo != undefined) {\n                    min_value_boleto_trademaster.push({\n                        condition: \"conditionprice_boleto_trademaster_\" + condition.condition_code,\n                        price: cond.valor_minimo\n                    })\n                }\n            }\n\n            // SE BOLETO A VISTA (new)\n            if (condition.method_code == \"2\") {\n                conditions_outros.push(\"conditionprice_boleto_a_vista_\" + condition.condition_code)\n            }\n\n            // SE CARTAO (new)\n            if (condition.method_code == \"3\") {\n                conditions_outros.push(\"conditionprice_cartao_de_credito_\" + condition.condition_code)\n            }\n\n            // se cartão ou boleto\n            if (condition.method_code == \"2\" || condition.method_code == \"3\") {\n                // separa config de valor mínimo por condição\n                if (cond.valor_minimo != undefined) {\n                    min_value_outros.push({\n                        condition: \"conditionprice_cartao_de_credito_\" + condition.condition_code,\n                        price: cond.valor_minimo\n                    })\n                }\n            }\n        }\n    })\n\n    msg.conditions_boleto_roge = conditions_boleto_roge\n    msg.conditions_boleto_trademaster = conditions_boleto_trademaster\n    msg.conditions_outros = conditions_outros\n\n    msg.min_value_boleto_roge = min_value_boleto_roge\n    msg.min_value_boleto_trademaster = min_value_boleto_trademaster\n    msg.min_value_outros = min_value_outros\n\n    return msg;\n}",
+                "description": "Separa cada lista de condições de pagamento por método"
+            }
+        },
+        {
+            "uid": "jn57i473q",
+            "type": "service_internal_db_entity_list",
+            "data": {
+                "x": 909,
+                "y": 150,
+                "page": "1",
+                "limit": "1000",
+                "table_id": "64934d5128ab0695c4932afc",
+                "filters": "{}",
+                "sort_order": "{}",
+                "description": "Consulta condições de pagamento já sincronizadas no DB",
+                "output_path": "conditions_db"
+            }
+        },
+        {
+            "uid": "px9rv5b50",
+            "type": "service_generic_rest_api",
+            "data": {
+                "x": 4476,
+                "y": 112,
+                "method": "put",
+                "content_type": "application/json",
+                "description": "Atualiza condições de pagamento do cliente",
+                "additional_headers": "{}",
+                "service_account_id": "6448127354a824ae0b5eb3f3",
+                "path": "/V1/company/{{msg.company_response.id}}",
+                "request_body": "{\n\t\"company\": {\n\t\t\"id\": {{msg.company_response.id}},\n\t\t\"company_name\": \"{{msg.company_response.company_name}}\",\n\t\t\"customer_group_id\": {{msg.company_response.customer_group_id}},\n\t\t\"company_email\": \"{{msg.company_response.company_email}}\",\n\t\t\"street\": [\n\t\t\t\"{{msg.company_response.street[0]}}\",\n\t\t\t\"{{msg.company_response.street[1]}}\",\n\t\t\t\"{{msg.company_response.street[2]}}\",\n\t\t\t\"{{msg.company_response.street[3] ? msg.company_response.street[3] : ''}}\"\n\t\t],\n\t\t\"city\": \"{{msg.company_response.city}}\",\n\t\t\"postcode\": \"{{msg.company_response.postcode}}\",\n\t\t\"telephone\": \"{{msg.company_response.telephone}}\",\n\t\t\"country_id\": \"{{msg.company_response.country_id}}\",\n\t\t\"super_user_id\": {{msg.company_response.super_user_id}},\n\t\t\"region_id\": \"{{msg.company_response.region_id}}\",\n        \"extension_attributes\": {\n\t\t\t\"limite_boleto_roge\": {{json msg.min_value_boleto_roge}},\n\t\t\t\"limite_boleto_trademaster\": {{json msg.min_value_boleto_trademaster}},\n\t\t\t\"limite_demais_condicoes\": {{json msg.min_value_outros}}\n        }\n\t}\n}"
+            }
+        },
+        {
+            "uid": "pnp6lr8o9",
+            "type": "core_condition",
+            "trigger": false,
+            "data": {
+                "x": 4256,
+                "y": 129,
+                "expression": "msg.conditions_boleto_roge.length || msg.conditions_boleto_trademaster.length || msg.conditions_demais.length",
+                "description": "Se existem condições para envio"
+            }
+        },
+        {
+            "uid": "8eivnf9oh",
+            "type": "core_logger",
+            "data": {
+                "x": 4696,
+                "y": 113,
+                "message_type": "message_parsed_text",
+                "message": "Valore mínimos de condições de pagamento atualizadas: Status {{msg.response.status}}",
+                "description": "Log de sucesso"
+            }
+        },
+        {
+            "uid": "tde4njmap",
+            "type": "core_debugger",
+            "data": {
+                "x": 3358,
+                "y": 405,
+                "message_type": "message_parsed_text",
+                "message": "{{json msg.company_response}}"
+            }
+        }
+    ]
+]

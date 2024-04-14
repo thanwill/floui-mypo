@@ -4,6 +4,7 @@ chrome.sidePanel
     .setPanelBehavior({ openPanelOnActionClick: true })
     .catch((error) => console.error(error))
 
+
 async function getTabId() {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     return tab
@@ -31,7 +32,7 @@ function alerta(message) {
 async function listarTipos(nodes) {
 
     const div = document.querySelector('.tipos');
-
+    
     const groupedByType = nodes.reduce((acc, node) => {
         if (!acc[node.type]) {
             acc[node.type] = [];
@@ -47,8 +48,14 @@ async function listarTipos(nodes) {
 
         /*
         reenderiza todos o types de nodes no html   <option value="Edge">
+        <div class="mb-3">
+            <label for="node" class="form-label">Aplicar filtro</label>
+            <input class="form-control" list="nodesList" id="node"
+                placeholder="Pesquisar conectores...">
+            <datalist id="nodesList"></datalist>
+        </div>
         */
-
+       
         const option = document.createElement('option');
         option.value = type;
         option.textContent = type;
@@ -127,8 +134,6 @@ function active(element) {
     }
 }
 
-
-
 document.addEventListener('DOMContentLoaded', async () => {
     const tab = await getTabId();
 
@@ -152,9 +157,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             .then(() => {
                 const elementos = document.querySelectorAll('.list-group-item');
                 elementos.forEach(function (el) {
-                    el.addEventListener('click', function () {
-                        active(el);
-                    });
+                    el.addEventListener('click', active(el));
                 });
             })
             .catch((error) => {
@@ -166,9 +169,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         alerta(`Erro ao buscar os loggers: ${error}`)
         console.error(error)
     })
-
-
-
-
 
 })
