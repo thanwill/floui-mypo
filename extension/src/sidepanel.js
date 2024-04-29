@@ -1,17 +1,17 @@
 
 
 chrome.sidePanel
-    .setPanelBehavior({ openPanelOnActionClick: true })
-    .catch((error) => console.error(error))
+.setPanelBehavior({ openPanelOnActionClick: true })
+.catch((error) => console.error(error))
 
 
 async function getTabId() {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    return tab
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  return tab
 }
 
-function alerta(message) {
-    const div = document.querySelector('.message');
+function alerta (message){
+  const div = document.querySelector('.message');
     /*
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Holy guacamole!</strong> You should check in on some of those fields below.
@@ -19,14 +19,14 @@ function alerta(message) {
       </div>
      */
 
-    const alert = document.createElement('div');
+    const alert = document.createElement('div');    
     alert.className = 'alert alert-warning alert-dismissible fade show mt-4';
     alert.role = 'alert';
     alert.innerHTML = `
       <strong>Ops!</strong> ${message}.
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     `;
-    div.appendChild(alert);
+    div.appendChild(alert); 
 }
 
 async function listarTipos(nodes) {
@@ -79,77 +79,70 @@ async function listarTipos(nodes) {
                 accordionItem.innerHTML = `
         <h2 class="accordion-header" id="heading${type}">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${type}" aria-expanded="false" aria-controls="collapse${type}">
-            <span class="badge text-bg-secondary me-2">${nodes.length}</span>
             ${type}
           </button>
         </h2>
         <div id="collapse${type}" class="accordion-collapse collapse" aria-labelledby="heading${type}" data-bs-parent="#tipos">
           <div class="accordion-body">
             <div class="list-group" >
-              ${nodes.map(node => `
+              ${                
+                nodes.map(node => `
                   <a class="list-group-item d-flex justify-content-between align-items-center" id="${node.uid}">
-                    ${node.type == "core_http_in" ? node.data.method : node.data.description}
-                    <span class="badge text-bg-primary rounded-pill">${node.uid}</span>
+                    ${node.type == "core_http_in"? node.data.method : node.data.description}
+                    <span class="badge text-bg-primary rounded-pill" style="color:white;">${node.uid}</span>
                   </a>
-                `).join('')
-                    }
+                `).join('')                    
+              }
             </div>
           </div>
         </div>
       `;
 
-                element.appendChild(accordionItem);
-            }
-
-        });
-
-
-
+      element.appendChild(accordionItem);
 
     }
 
-    return Promise.resolve({
-        success: true,
-        group: groupedByType
+  }
 
-    });
+  return Promise.resolve({
+    success: true,
+    group : groupedByType
+
+  });
 
 }
 
 function active(element) {
-    const elementos = document.querySelectorAll('.list-group-item');
-    elementos.forEach(function (el) {
-        if (el !== element) {
-            el.classList.remove('active');
-        }
-    });
-
-    // Se o elemento já tem a classe 'active', remova-a
-    // Se não, adicione-a
-    if (element.classList.contains('active')) {
-        element.classList.remove('active');
-    } else {
-        element.classList.add('active');
-
+  const elementos = document.querySelectorAll('.list-group-item');
+  elementos.forEach(function(el) {
+    if (el !== element) {
+      el.classList.remove('active');
     }
+  });
+
+  // Se o elemento já tem a classe 'active', remova-a
+  // Se não, adicione-a
+  if (element.classList.contains('active')) {
+    element.classList.remove('active');
+  } else {
+    element.classList.add('active');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const tab = await getTabId();
+  const tab = await getTabId();
 
-    if (!tab.url.includes('ws.floui.io')) {
-        //https://app.floui.io/
-        const message = `A extensão só funciona no ambiente de desenvolvimento do floui.io.<br><br>Acesse: <a href="https://app.floui.io/" target="_blank">app.floui.io</a> e tente novamente`;
-        alerta(message)
-        return;
+  if (!tab.url.includes('ws.floui.io')) {  
+    alerta('Você está fora do ambiente Floui')
+    return;   
+  }
+
+  chrome.scripting.executeScript ({
+    target: { tabId: tab.id },
+    function: () => {
+      return {flow: document.querySelector('input[type="hidden"]')?.value}
     }
-
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: () => {
-            return { flow: document.querySelector('input[type="hidden"]')?.value }
-        }
-    }).then((result) => {
+  }).then((result) => {
 
         const flow = JSON.parse(result[0].result.flow)
 
